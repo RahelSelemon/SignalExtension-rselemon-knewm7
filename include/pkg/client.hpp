@@ -56,6 +56,8 @@ private:
 
   SecByteBlock AES_key;
   SecByteBlock HMAC_key;
+  
+  SecByteBlock root_key;
 
   // DH Ratchet Fields
   // DHParams_Message DH_params;

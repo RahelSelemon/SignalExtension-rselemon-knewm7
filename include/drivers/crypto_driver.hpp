@@ -44,4 +44,6 @@ public:
   bool HMAC_verify(SecByteBlock key, std::string ciphertext, std::string hmac);
   std::pair<SecByteBlock, SecByteBlock> KDF_CK(const SecByteBlock &CK);
   SecByteBlock HMAC_generate_key_with_byte(const SecByteBlock &key_material, unsigned char byte);
+
+  std::pair<SecByteBlock, SecByteBlock> KDF_RK(const SecByteBlock &root_key, const SecByteBlock &dh_shared_secret);
 };

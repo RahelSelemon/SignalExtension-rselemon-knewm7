@@ -38,11 +38,17 @@ void Client::prepare_keys(CryptoPP::DH DH_obj,
   // TODO: implement me!
 
   CryptoPP::SecByteBlock DH_shared_key = crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, DH_other_public_value);
-  this->AES_key = crypto_driver->AES_generate_key(DH_shared_key);
+  // this->AES_key = crypto_driver->AES_generate_key(DH_shared_key);
+  // this->HMAC_key = crypto_driver->HMAC_generate_key(DH_shared_key);
 
-  this->HMAC_key = crypto_driver->HMAC_generate_key(DH_shared_key);
+  // KDF root key → derive new root key and receiving chain key
+  auto [new_root_key, new_CKr] = crypto_driver->KDF_RK(this->root_key, DH_shared_key);
 
+  this->root_key = new_root_key;
+  this->CKr = new_CKr;
 
+  // Generate fresh sending chain key (CKs) for new key pair
+  this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->root_key, 0xFF); // or use another salt/tag if needed
 }
 
 /**
@@ -89,23 +95,30 @@ void Client::prepare_keys(CryptoPP::DH DH_obj,
 
 Message_Message Client::send(std::string plaintext) {
   if(this->DH_switched) {
-    this->PN = this->Ns;
+    this->DH_switched = false;
+
     auto [DH_obj, DH_private_value, DH_public_value] = crypto_driver->DH_initialize(this->DH_params);
     this->prepare_keys(DH_obj, DH_private_value, this->DH_last_other_public_value);
-
     this->DH_current_private_value = DH_private_value;
     this->DH_current_public_value = DH_public_value;
-    this->DH_switched = false;
+
+    this->PN = this->Ns;
     this->Ns = 0; // Reset message number for new chain
     
   }
 
-  SecByteBlock MK = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
-  this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
+  // SecByteBlock MK = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
+  // this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
+
+  SecByteBlock MK_enc = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
+  SecByteBlock CK_next = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
+  SecByteBlock MK_mac = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x03);
+  this->CKs = CK_next;
+
 
   // Encrypt and tag
-  auto [ciphertext, iv] = crypto_driver->AES_encrypt(MK, plaintext);
-  std::string hmac = crypto_driver->HMAC_generate(MK, concat_msg_fields(iv, ciphertext));
+  auto [ciphertext, iv] = crypto_driver->AES_encrypt(MK_enc, plaintext);
+  std::string hmac = crypto_driver->HMAC_generate(MK_mac, concat_msg_fields(iv, ciphertext));
 
   // Build message
   Message_Message msg;
@@ -117,7 +130,7 @@ Message_Message Client::send(std::string plaintext) {
   msg.n = this->Ns;
 
   this->Ns += 1;
-  this->DH_switched = true;
+  // this->DH_switched = true;
 
   return msg;
 }
@@ -158,15 +171,17 @@ Message_Message Client::send(std::string plaintext) {
 //Function rewritten for project
 std::pair<std::string, bool> Client::receive(Message_Message msg) {
   std::unique_lock<std::mutex> lck(this->mtx);
+  
+      this->DH_switched = true;
+
+
   //DH Ratchet if new public key
   if (msg.public_value != this->DH_last_other_public_value) {
     this->DH_last_other_public_value = msg.public_value;
-    this->DH_switched = true;
 
     auto [DH_obj, _, __] = crypto_driver->DH_initialize(this->DH_params);
     this->prepare_keys(DH_obj, this->DH_current_private_value, this->DH_last_other_public_value);
 
-    this->DH_switched = false;
     this->Nr = 0; // reset message number
   }
 
@@ -178,7 +193,10 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
 
     std::string concat = concat_msg_fields(msg.iv, msg.ciphertext);
     bool valid = crypto_driver->HMAC_verify(MK, concat, msg.mac);
-    if (!valid) return {"", false};
+    if (!valid) {
+      throw std::runtime_error("invalid skipped message detected!!!");
+      //return {"", false};
+    } 
     return {crypto_driver->AES_decrypt(MK, msg.iv, msg.ciphertext), true};
   }
 
@@ -195,6 +213,7 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
     this->MKSKIPPED[skip_id] = MKskipped;
     this->Nr++;
   }
+
   // Use current CKr to derive MK for this message
   SecByteBlock MK = crypto_driver->HMAC_generate_key_with_byte(this->CKr, 0x01);
   this->CKr = crypto_driver->HMAC_generate_key_with_byte(this->CKr, 0x02);
@@ -202,7 +221,10 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
 
   std::string concat = concat_msg_fields(msg.iv, msg.ciphertext);
   bool valid = crypto_driver->HMAC_verify(MK, concat, msg.mac);
-  if (!valid) return {"", false};
+  if (!valid){
+    throw std::runtime_error("invalid message detected!!!");
+    // return {"", false};
+  } 
 
   return {crypto_driver->AES_decrypt(MK, msg.iv, msg.ciphertext), true};
 

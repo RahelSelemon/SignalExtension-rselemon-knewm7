@@ -5,6 +5,35 @@
 
 using namespace CryptoPP;
 
+
+std::pair<SecByteBlock, SecByteBlock> CryptoDriver::KDF_RK(
+    const SecByteBlock &root_key,
+    const SecByteBlock &dh_shared_secret) {
+  
+  CryptoPP::HKDF<SHA256> hkdf;
+
+  // Intermediate PRK
+  SecByteBlock prk(32);  // Could also be root_key.size()
+  hkdf.DeriveKey(prk, prk.size(), dh_shared_secret, dh_shared_secret.size(),
+                 root_key, root_key.size(), nullptr, 0);
+
+  // Derive new root key and chain key
+  SecByteBlock new_root(32);
+  SecByteBlock CKr(32);
+
+  std::string rk_info = "ratchet_root_rk";
+  std::string ck_info = "ratchet_root_ck";
+
+  hkdf.DeriveKey(new_root, new_root.size(), prk, prk.size(),
+                 (const byte *)rk_info.data(), rk_info.size(), nullptr, 0);
+
+  hkdf.DeriveKey(CKr, CKr.size(), prk, prk.size(),
+                 (const byte *)ck_info.data(), ck_info.size(), nullptr, 0);
+
+  return {new_root, CKr};
+}
+
+
 /**
  * @brief Returns (p, q, g) DH parameters. This function should:
  * 1) Initialize a `CryptoPP::AutoSeededRandomPool` object
