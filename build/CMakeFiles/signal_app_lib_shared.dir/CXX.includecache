@@ -28,7 +28,7 @@ boost/log/utility/setup/console.hpp
 boost/log/utility/setup/file.hpp
 -
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/messages.hpp
+/workspaces/SignalExtension-rselemon-knewm7/include-shared/messages.hpp
 cassert
 -
 cstring
@@ -44,7 +44,7 @@ crypto++/cryptlib.h
 crypto++/integer.h
 -
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/util.hpp
+/workspaces/SignalExtension-rselemon-knewm7/include-shared/util.hpp
 cstring
 -
 iostream
@@ -62,17 +62,17 @@ crypto++/hex.h
 crypto++/integer.h
 -
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src-shared/logger.cxx
+/workspaces/SignalExtension-rselemon-knewm7/src-shared/logger.cxx
 logger.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src-shared/logger.hpp
+/workspaces/SignalExtension-rselemon-knewm7/src-shared/logger.hpp
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src-shared/messages.cxx
+/workspaces/SignalExtension-rselemon-knewm7/src-shared/messages.cxx
 ../include-shared/messages.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/messages.hpp
+/workspaces/SignalExtension-rselemon-knewm7/include-shared/messages.hpp
 ../include-shared/util.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/util.hpp
+/workspaces/SignalExtension-rselemon-knewm7/include-shared/util.hpp
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src-shared/util.cxx
+/workspaces/SignalExtension-rselemon-knewm7/src-shared/util.cxx
 ../include-shared/util.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/util.hpp
+/workspaces/SignalExtension-rselemon-knewm7/include-shared/util.hpp
 

@@ -304,6 +304,8 @@ bool CryptoDriver::HMAC_verify(SecByteBlock key, std::string ciphertext,
   }
 }
 
+
+
 std::pair<SecByteBlock, SecByteBlock>
 CryptoDriver::KDF_CK(const SecByteBlock &CK) {
   CryptoPP::HKDF<SHA256> hkdf;

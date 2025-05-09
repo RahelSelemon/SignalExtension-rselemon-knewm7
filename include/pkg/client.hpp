@@ -28,6 +28,13 @@ public:
   std::pair<std::string, bool> receive(Message_Message ciphertext);
   void run(std::string command);
   void HandleKeyExchange(std::string command);
+  std::string byteblock_to_hex(const CryptoPP::SecByteBlock& block) {
+    std::string hex;
+    CryptoPP::HexEncoder encoder(new CryptoPP::StringSink(hex));
+    encoder.Put(block.BytePtr(), block.SizeInBytes());
+    encoder.MessageEnd();
+    return hex;
+}
 
   // Expose internal state for testing
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cs1515-user/SignalExtension-rselemon-knewm7
+CMAKE_SOURCE_DIR = /workspaces/SignalExtension-rselemon-knewm7
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cs1515-user/SignalExtension-rselemon-knewm7/build
+CMAKE_BINARY_DIR = /workspaces/SignalExtension-rselemon-knewm7/build
 
 # Utility rule file for ExperimentalBuild.
 
@@ -71,6 +71,6 @@ CMakeFiles/ExperimentalBuild.dir/clean:
 .PHONY : CMakeFiles/ExperimentalBuild.dir/clean
 
 CMakeFiles/ExperimentalBuild.dir/depend:
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/cs1515-user/SignalExtension-rselemon-knewm7 /home/cs1515-user/SignalExtension-rselemon-knewm7 /home/cs1515-user/SignalExtension-rselemon-knewm7/build /home/cs1515-user/SignalExtension-rselemon-knewm7/build /home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/ExperimentalBuild.dir/DependInfo.cmake --color=$(COLOR)
+	cd /workspaces/SignalExtension-rselemon-knewm7/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /workspaces/SignalExtension-rselemon-knewm7 /workspaces/SignalExtension-rselemon-knewm7 /workspaces/SignalExtension-rselemon-knewm7/build /workspaces/SignalExtension-rselemon-knewm7/build /workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/ExperimentalBuild.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ExperimentalBuild.dir/depend
 

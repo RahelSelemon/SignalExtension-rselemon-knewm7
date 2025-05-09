@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/cli_driver.cxx" "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/cli_driver.cxx.o"
-  "/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/crypto_driver.cxx" "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/crypto_driver.cxx.o"
-  "/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/network_driver.cxx" "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/network_driver.cxx.o"
-  "/home/cs1515-user/SignalExtension-rselemon-knewm7/src/pkg/client.cxx" "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/pkg/client.cxx.o"
+  "/workspaces/SignalExtension-rselemon-knewm7/src/drivers/cli_driver.cxx" "/workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/cli_driver.cxx.o"
+  "/workspaces/SignalExtension-rselemon-knewm7/src/drivers/crypto_driver.cxx" "/workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/crypto_driver.cxx.o"
+  "/workspaces/SignalExtension-rselemon-knewm7/src/drivers/network_driver.cxx" "/workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/drivers/network_driver.cxx.o"
+  "/workspaces/SignalExtension-rselemon-knewm7/src/pkg/client.cxx" "/workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib.dir/src/pkg/client.cxx.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -26,7 +26,7 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Targets to which this target links.
 set(CMAKE_TARGET_LINKED_INFO_FILES
-  "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib_shared.dir/DependInfo.cmake"
+  "/workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/signal_app_lib_shared.dir/DependInfo.cmake"
   )
 
 # Fortran module output directory.

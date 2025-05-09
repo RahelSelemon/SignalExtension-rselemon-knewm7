@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=gnu++11
 
 CXX_DEFINES = -DBOOST_LOG_DYN_LINK -DDOCTEST_CONFIG_IMPLEMENT_WITH_MAIN -DENABLE_DOCTEST_IN_LIBRARY
 
-CXX_INCLUDES = -I/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src 
+CXX_INCLUDES = -I/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src 
 

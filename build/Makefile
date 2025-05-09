@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/cs1515-user/SignalExtension-rselemon-knewm7
+CMAKE_SOURCE_DIR = /workspaces/SignalExtension-rselemon-knewm7
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/cs1515-user/SignalExtension-rselemon-knewm7/build
+CMAKE_BINARY_DIR = /workspaces/SignalExtension-rselemon-knewm7/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -101,17 +101,6 @@ rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target test
 test:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
@@ -122,6 +111,17 @@ test:
 test/fast: test
 
 .PHONY : test/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # Special rule for the target install
 install: preinstall
@@ -137,9 +137,9 @@ install/fast: preinstall/fast
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles /home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles /workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /workspaces/SignalExtension-rselemon-knewm7/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -207,19 +207,6 @@ signal_app_lib/fast:
 .PHONY : signal_app_lib/fast
 
 #=============================================================================
-# Target rules for targets named signal_app_lib_shared
-
-# Build rule for target.
-signal_app_lib_shared: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 signal_app_lib_shared
-.PHONY : signal_app_lib_shared
-
-# fast build rule for target.
-signal_app_lib_shared/fast:
-	$(MAKE) -f CMakeFiles/signal_app_lib_shared.dir/build.make CMakeFiles/signal_app_lib_shared.dir/build
-.PHONY : signal_app_lib_shared/fast
-
-#=============================================================================
 # Target rules for targets named NightlyMemCheck
 
 # Build rule for target.
@@ -244,19 +231,6 @@ NightlyTest: cmake_check_build_system
 NightlyTest/fast:
 	$(MAKE) -f CMakeFiles/NightlyTest.dir/build.make CMakeFiles/NightlyTest.dir/build
 .PHONY : NightlyTest/fast
-
-#=============================================================================
-# Target rules for targets named doc
-
-# Build rule for target.
-doc: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 doc
-.PHONY : doc
-
-# fast build rule for target.
-doc/fast:
-	$(MAKE) -f CMakeFiles/doc.dir/build.make CMakeFiles/doc.dir/build
-.PHONY : doc/fast
 
 #=============================================================================
 # Target rules for targets named ContinuousConfigure
@@ -335,6 +309,19 @@ ContinuousUpdate: cmake_check_build_system
 ContinuousUpdate/fast:
 	$(MAKE) -f CMakeFiles/ContinuousUpdate.dir/build.make CMakeFiles/ContinuousUpdate.dir/build
 .PHONY : ContinuousUpdate/fast
+
+#=============================================================================
+# Target rules for targets named signal_app_lib_shared
+
+# Build rule for target.
+signal_app_lib_shared: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 signal_app_lib_shared
+.PHONY : signal_app_lib_shared
+
+# fast build rule for target.
+signal_app_lib_shared/fast:
+	$(MAKE) -f CMakeFiles/signal_app_lib_shared.dir/build.make CMakeFiles/signal_app_lib_shared.dir/build
+.PHONY : signal_app_lib_shared/fast
 
 #=============================================================================
 # Target rules for targets named NightlyUpdate
@@ -848,21 +835,20 @@ help:
 	@echo "... install/local"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
+	@echo "... test"
 	@echo "... check"
 	@echo "... signal_app"
 	@echo "... signal_app_lib"
-	@echo "... signal_app_lib_shared"
 	@echo "... edit_cache"
 	@echo "... NightlyMemCheck"
 	@echo "... NightlyTest"
-	@echo "... test"
-	@echo "... doc"
 	@echo "... ContinuousConfigure"
 	@echo "... ContinuousBuild"
 	@echo "... NightlyConfigure"
 	@echo "... NightlyMemoryCheck"
 	@echo "... ExperimentalTest"
 	@echo "... ContinuousUpdate"
+	@echo "... signal_app_lib_shared"
 	@echo "... NightlyUpdate"
 	@echo "... ExperimentalMemCheck"
 	@echo "... ExperimentalSubmit"

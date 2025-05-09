@@ -6,5 +6,5 @@ CXX_FLAGS = -g   -std=c++2a
 
 CXX_DEFINES = -DBOOST_LOG_DYN_LINK -DENABLE_DOCTEST_IN_LIBRARY
 
-CXX_INCLUDES = -I/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared -I/home/cs1515-user/SignalExtension-rselemon-knewm7/include -I/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src 
+CXX_INCLUDES = -I/workspaces/SignalExtension-rselemon-knewm7/include-shared -I/workspaces/SignalExtension-rselemon-knewm7/include -I/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src 
 

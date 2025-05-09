@@ -1,15 +1,15 @@
 
-if(NOT "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitinfo.txt" IS_NEWER_THAN "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt")
-  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt'")
+if(NOT "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitinfo.txt" IS_NEWER_THAN "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt")
+  message(STATUS "Avoiding repeated git clone, stamp file is up to date: '/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt'")
   return()
 endif()
 
 execute_process(
-  COMMAND ${CMAKE_COMMAND} -E remove_directory "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
+  COMMAND ${CMAKE_COMMAND} -E remove_directory "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to remove directory: '/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src'")
+  message(FATAL_ERROR "Failed to remove directory: '/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src'")
 endif()
 
 # try the clone 3 times in case there is an odd git clone issue
@@ -17,8 +17,8 @@ set(error_code 1)
 set(number_of_tries 0)
 while(error_code AND number_of_tries LESS 3)
   execute_process(
-    COMMAND "/usr/bin/git"  clone --no-checkout "https://github.com/onqtam/doctest" "doctest-src"
-    WORKING_DIRECTORY "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps"
+    COMMAND "/usr/local/bin/git"  clone --no-checkout "https://github.com/onqtam/doctest" "doctest-src"
+    WORKING_DIRECTORY "/workspaces/SignalExtension-rselemon-knewm7/build/_deps"
     RESULT_VARIABLE error_code
     )
   math(EXPR number_of_tries "${number_of_tries} + 1")
@@ -32,8 +32,8 @@ if(error_code)
 endif()
 
 execute_process(
-  COMMAND "/usr/bin/git"  checkout v2.4.11 --
-  WORKING_DIRECTORY "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
+  COMMAND "/usr/local/bin/git"  checkout v2.4.11 --
+  WORKING_DIRECTORY "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
   RESULT_VARIABLE error_code
   )
 if(error_code)
@@ -43,24 +43,24 @@ endif()
 set(init_submodules TRUE)
 if(init_submodules)
   execute_process(
-    COMMAND "/usr/bin/git"  submodule update --recursive --init 
-    WORKING_DIRECTORY "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
+    COMMAND "/usr/local/bin/git"  submodule update --recursive --init 
+    WORKING_DIRECTORY "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src"
     RESULT_VARIABLE error_code
     )
 endif()
 if(error_code)
-  message(FATAL_ERROR "Failed to update submodules in: '/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-src'")
+  message(FATAL_ERROR "Failed to update submodules in: '/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-src'")
 endif()
 
 # Complete success, update the script-last-run stamp file:
 #
 execute_process(
   COMMAND ${CMAKE_COMMAND} -E copy
-    "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitinfo.txt"
-    "/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt"
+    "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitinfo.txt"
+    "/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt"
   RESULT_VARIABLE error_code
   )
 if(error_code)
-  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/home/cs1515-user/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt'")
+  message(FATAL_ERROR "Failed to copy script-last-run stamp file: '/workspaces/SignalExtension-rselemon-knewm7/build/_deps/doctest-subbuild/doctest-populate-prefix/src/doctest-populate-stamp/doctest-populate-gitclone-lastrun.txt'")
 endif()
 

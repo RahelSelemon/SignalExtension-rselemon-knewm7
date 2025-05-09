@@ -4,14 +4,14 @@
 
 
 # Configuration directories and files
-SourceDirectory: /home/cs1515-user/SignalExtension-rselemon-knewm7
-BuildDirectory: /home/cs1515-user/SignalExtension-rselemon-knewm7/build
+SourceDirectory: /workspaces/SignalExtension-rselemon-knewm7
+BuildDirectory: /workspaces/SignalExtension-rselemon-knewm7/build
 
 # Where to place the cost data store
 CostDataFile: 
 
 # Site is something like machine.domain, i.e. pragmatic.crd
-Site: 18809431a8df
+Site: codespaces-607df5
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
 BuildName: Linux-c++
@@ -26,7 +26,7 @@ SubmitURL: http://
 NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
-ConfigureCommand: "/usr/bin/cmake" "/home/cs1515-user/SignalExtension-rselemon-knewm7"
+ConfigureCommand: "/usr/bin/cmake" "/workspaces/SignalExtension-rselemon-knewm7"
 MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
 DefaultCTestConfigurationType: Release
 
@@ -44,7 +44,7 @@ SVNOptions:
 SVNUpdateOptions: 
 
 # Git options
-GITCommand: /usr/bin/git
+GITCommand: /usr/local/bin/git
 GITInitSubmodules: 
 GITUpdateOptions: 
 GITUpdateCustom: 
@@ -57,7 +57,7 @@ P4UpdateOptions:
 P4UpdateCustom: 
 
 # Generic update command
-UpdateCommand: /usr/bin/git
+UpdateCommand: /usr/local/bin/git
 UpdateOptions: 
 UpdateType: git
 
@@ -71,7 +71,7 @@ ValgrindCommand:
 ValgrindCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
-MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
+MemoryCheckCommand: /usr/bin/valgrind
 MemoryCheckCommandOptions: 
 MemoryCheckSuppressionFile: 
 

@@ -1,4 +1,4 @@
-# Install script for directory: /home/cs1515-user/SignalExtension-rselemon-knewm7/test
+# Install script for directory: /workspaces/SignalExtension-rselemon-knewm7/test
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

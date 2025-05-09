@@ -31,22 +31,38 @@ Client::Client(std::shared_ptr<NetworkDriver> network_driver, std::shared_ptr<Cr
  * 2) Use the resulting key in `AES_generate_key` and `HMAC_generate_key`
  * 3) Update private key variables
  */
-void Client::prepare_keys(CryptoPP::DH DH_obj, CryptoPP::SecByteBlock DH_private_value,
- CryptoPP::SecByteBlock DH_other_public_value) {
-  // TODO: implement me!
+// void Client::prepare_keys(CryptoPP::DH DH_obj, CryptoPP::SecByteBlock DH_private_value,
+//  CryptoPP::SecByteBlock DH_other_public_value) {
+//   // TODO: implement me!
 
-  CryptoPP::SecByteBlock DH_shared_key = crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, DH_other_public_value);
-  // this->AES_key = crypto_driver->AES_generate_key(DH_shared_key);
-  // this->HMAC_key = crypto_driver->HMAC_generate_key(DH_shared_key);
+//   CryptoPP::SecByteBlock DH_shared_key = crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, DH_other_public_value);
+//   // this->AES_key = crypto_driver->AES_generate_key(DH_shared_key);
+//   // this->HMAC_key = crypto_driver->HMAC_generate_key(DH_shared_key);
 
-  // KDF root key → derive new root key and receiving chain key
-  auto [new_root_key, new_CKr] = crypto_driver->KDF_RK(this->root_key, DH_shared_key);
+//   // KDF root key → derive new root key and receiving chain key
+//   auto [new_root_key, new_CKr] = crypto_driver->KDF_RK(this->root_key, DH_shared_key);
 
+//   this->root_key = new_root_key;
+//   this->CKr = new_CKr;
+
+//   // Generate fresh sending chain key (CKs) for new key pair
+//   this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->root_key, 0xFF); // or use another salt/tag if needed
+// }
+void Client::prepare_keys(CryptoPP::DH DH_obj,
+                          CryptoPP::SecByteBlock DH_private_value,
+                          CryptoPP::SecByteBlock DH_other_public_value) {
+  // Step 1: DH shared secret
+  CryptoPP::SecByteBlock DH_shared_key =
+      crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, DH_other_public_value);
+
+  // Step 2: KDF_RK → update root key and chain key
+  auto [new_root_key, chain_key] =
+      crypto_driver->KDF_RK(this->root_key, DH_shared_key);
+
+  // Step 3: Save the new keys
   this->root_key = new_root_key;
-  this->CKr = new_CKr;
-
-  // Generate fresh sending chain key (CKs) for new key pair
-  this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->root_key, 0xFF); // or use another salt/tag if needed
+  this->CKr = chain_key;
+  this->CKs = chain_key;  // Initially the same — will diverge after DH ratchet
 }
 
 //Rewritten for project
@@ -66,12 +82,12 @@ Message_Message Client::send(std::string plaintext) {
 
   SecByteBlock MK_enc = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
   SecByteBlock CK_next = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
-  SecByteBlock MK_mac = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x03);
+  // SecByteBlock MK_mac = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x03);
   this->CKs = CK_next;
 
   // Encrypt and tag
   auto [ciphertext, iv] = crypto_driver->AES_encrypt(MK_enc, plaintext);
-  std::string hmac = crypto_driver->HMAC_generate(MK_mac, concat_msg_fields(iv, ciphertext));
+  std::string hmac = crypto_driver->HMAC_generate(MK_enc, concat_msg_fields(iv, ciphertext));
 
   // Build message
   Message_Message msg;
@@ -83,6 +99,8 @@ Message_Message Client::send(std::string plaintext) {
   msg.n = this->Ns;
 
   this->Ns += 1;
+  std::cout << "[DEBUG] Derived MK (send/recv): " << byteblock_to_hex(MK_enc) << std::endl;
+  // std::cout << "[DEBUG] Derived MK (send/recv): " << byteblock_to_hex(MK_mac) << std::endl;
 
   return msg;
 }
@@ -169,6 +187,9 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
   SecByteBlock MK = crypto_driver->HMAC_generate_key_with_byte(this->CKr, 0x01);
   this->CKr = crypto_driver->HMAC_generate_key_with_byte(this->CKr, 0x02);
   this->Nr++;
+
+  std::cout << "[DEBUG] Derived MK (send/recv): " << byteblock_to_hex(MK) << std::endl;
+
 
   std::string concat = concat_msg_fields(msg.iv, msg.ciphertext);
   bool valid = crypto_driver->HMAC_verify(MK, concat, msg.mac);
@@ -260,8 +281,9 @@ void Client::HandleKeyExchange(std::string command) {
     this->DH_switched = false; 
 
     // After prepare_keys, initialize symmetric ratchets
-    this->CKs = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x10);  // for sending
-    this->CKr = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x11);  // for receiving
+    // SecByteBlock DH_shared_key = crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, other_pub.public_value);
+    // this->CKs = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x10);  // for sending
+    // this->CKr = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x11);  // for receiving
 
 }
 /**
