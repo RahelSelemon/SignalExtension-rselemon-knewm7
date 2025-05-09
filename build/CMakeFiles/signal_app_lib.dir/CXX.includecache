@@ -8,8 +8,6 @@
 
 ../include-shared/colors.hpp
 
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/colors.hpp
-
 /home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/messages.hpp
 cassert
 -
@@ -131,40 +129,6 @@ crypto++/osrng.h
 /home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/cli_driver.hpp
 ../../include/drivers/crypto_driver.hpp
 /home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/crypto_driver.hpp
-../../include/drivers/network_driver.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/network_driver.hpp
-
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/cli_driver.cxx
-cmath
--
-iomanip
--
-iostream
--
-stdexcept
--
-term.h
--
-unistd.h
--
-../../include-shared/colors.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/colors.hpp
-../../include/drivers/cli_driver.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/cli_driver.hpp
-
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/crypto_driver.cxx
-stdexcept
--
-../../include-shared/util.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include-shared/util.hpp
-../../include/drivers/crypto_driver.hpp
-/home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/crypto_driver.hpp
-
-/home/cs1515-user/SignalExtension-rselemon-knewm7/src/drivers/network_driver.cxx
-stdexcept
--
-vector
--
 ../../include/drivers/network_driver.hpp
 /home/cs1515-user/SignalExtension-rselemon-knewm7/include/drivers/network_driver.hpp
 

@@ -30,23 +30,14 @@ public:
   void HandleKeyExchange(std::string command);
 
   // Expose internal state for testing
-  DHParams_Message DH_params;
+
+// private:
+  void ReceiveThread();
+  void SendThread();
+
   CryptoPP::SecByteBlock get_CKs() { return CKs; }
   int get_Ns() { return Ns; }
   int get_PN() { return PN; }
-
-  // Phase 1 fields for testing
-  CryptoPP::SecByteBlock CKs; // Sending chain key
-  CryptoPP::SecByteBlock CKr; // Receiving chain key
-  int Ns = 0;        // Message number for sending
-  int Nr = 0;        // Message number for receiving
-  int PN = 0;        // Number of messages in previous sending chain
-  std::map<std::string, CryptoPP::SecByteBlock> MKSKIPPED;
-  const int MAX_SKIP = 1000;
-
-private:
-  void ReceiveThread();
-  void SendThread();
 
   std::mutex mtx;
 
@@ -60,22 +51,22 @@ private:
   SecByteBlock root_key;
 
   // DH Ratchet Fields
-  // DHParams_Message DH_params;
+  DHParams_Message DH_params;
   bool DH_switched;
   SecByteBlock DH_current_private_value;
   SecByteBlock DH_current_public_value;
   SecByteBlock DH_last_other_public_value;
-
+ 
   // // Chain Ratchet Fields 
-  //These fields are made public for testing 
-  // CryptoPP::SecByteBlock CKs; // Chain key for sending
-  // CryptoPP::SecByteBlock CKr; // Chain key for receiving
-  // int Ns = 0;                 // Number of messages sent in current sending chain
-  // int Nr = 0;                 // Number of messages received in current receiving chain
-  // int PN = 0;                 // Number of messages in previous sending chain
+  // These fields are made public for testing 
+  CryptoPP::SecByteBlock CKs; // Chain key for sending
+  CryptoPP::SecByteBlock CKr; // Chain key for receiving
+  int Ns = 0;                 // Number of messages sent in current sending chain
+  int Nr = 0;                 // Number of messages received in current receiving chain
+  int PN = 0;                 // Number of messages in previous sending chain
 
-  // // Skipped message keys (indexed by ratchet pub key + message number)
-  // std::map<std::string, CryptoPP::SecByteBlock> MKSKIPPED;
-  // const int MAX_SKIP = 1000;
+  // Skipped message keys (indexed by ratchet pub key + message number)
+  std::map<std::string, CryptoPP::SecByteBlock> MKSKIPPED;
+  const int MAX_SKIP = 1000;
 
 };

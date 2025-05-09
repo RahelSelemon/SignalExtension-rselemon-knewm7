@@ -57,27 +57,27 @@ include test/CMakeFiles/unit_tests.dir/progress.make
 # Include the compile flags for this target's objects.
 include test/CMakeFiles/unit_tests.dir/flags.make
 
-test/CMakeFiles/unit_tests.dir/test_provided.cxx.o: test/CMakeFiles/unit_tests.dir/flags.make
-test/CMakeFiles/unit_tests.dir/test_provided.cxx.o: ../test/test_provided.cxx
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/unit_tests.dir/test_provided.cxx.o"
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/unit_tests.dir/test_provided.cxx.o -c /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_provided.cxx
+test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.o: test/CMakeFiles/unit_tests.dir/flags.make
+test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.o: ../test/test_ratchet.cxx
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/cs1515-user/SignalExtension-rselemon-knewm7/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.o"
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/unit_tests.dir/test_ratchet.cxx.o -c /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_ratchet.cxx
 
-test/CMakeFiles/unit_tests.dir/test_provided.cxx.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/test_provided.cxx.i"
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_provided.cxx > CMakeFiles/unit_tests.dir/test_provided.cxx.i
+test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/unit_tests.dir/test_ratchet.cxx.i"
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_ratchet.cxx > CMakeFiles/unit_tests.dir/test_ratchet.cxx.i
 
-test/CMakeFiles/unit_tests.dir/test_provided.cxx.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/test_provided.cxx.s"
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_provided.cxx -o CMakeFiles/unit_tests.dir/test_provided.cxx.s
+test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/unit_tests.dir/test_ratchet.cxx.s"
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/cs1515-user/SignalExtension-rselemon-knewm7/test/test_ratchet.cxx -o CMakeFiles/unit_tests.dir/test_ratchet.cxx.s
 
 # Object files for target unit_tests
 unit_tests_OBJECTS = \
-"CMakeFiles/unit_tests.dir/test_provided.cxx.o"
+"CMakeFiles/unit_tests.dir/test_ratchet.cxx.o"
 
 # External object files for target unit_tests
 unit_tests_EXTERNAL_OBJECTS =
 
-unit_tests: test/CMakeFiles/unit_tests.dir/test_provided.cxx.o
+unit_tests: test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.o
 unit_tests: test/CMakeFiles/unit_tests.dir/build.make
 unit_tests: libsignal_app_lib.a
 unit_tests: libsignal_app_lib_shared.a

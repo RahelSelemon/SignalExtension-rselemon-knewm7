@@ -18,8 +18,7 @@
  * @param network_driver NetworkDriver to handle network operations i.e. sending and receiving msgs 
  * @param crypto_driver CryptoDriver to handle crypto related functionality
  */
-Client::Client(std::shared_ptr<NetworkDriver> network_driver,
-               std::shared_ptr<CryptoDriver> crypto_driver) {
+Client::Client(std::shared_ptr<NetworkDriver> network_driver, std::shared_ptr<CryptoDriver> crypto_driver) {
   // Make shared variables.
   this->cli_driver = std::make_shared<CLIDriver>();
   this->crypto_driver = crypto_driver;
@@ -32,9 +31,8 @@ Client::Client(std::shared_ptr<NetworkDriver> network_driver,
  * 2) Use the resulting key in `AES_generate_key` and `HMAC_generate_key`
  * 3) Update private key variables
  */
-void Client::prepare_keys(CryptoPP::DH DH_obj,
-                          CryptoPP::SecByteBlock DH_private_value,
-                          CryptoPP::SecByteBlock DH_other_public_value) {
+void Client::prepare_keys(CryptoPP::DH DH_obj, CryptoPP::SecByteBlock DH_private_value,
+ CryptoPP::SecByteBlock DH_other_public_value) {
   // TODO: implement me!
 
   CryptoPP::SecByteBlock DH_shared_key = crypto_driver->DH_generate_shared_key(DH_obj, DH_private_value, DH_other_public_value);
@@ -51,48 +49,7 @@ void Client::prepare_keys(CryptoPP::DH DH_obj,
   this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->root_key, 0xFF); // or use another salt/tag if needed
 }
 
-/**
- * Encrypts the given message and returns a Message struct. This function
- * should:
- * 1) Check if the DH Ratchet keys need to change; if so, update them.
- * 2) Encrypt and tag the message.
- */
-// Message_Message Client::send(std::string plaintext) {
-//   // Grab the lock to avoid race conditions between the receive and send threads
-//   // Lock will automatically release at the end of the function.
-//   std::unique_lock<std::mutex> lck(this->mtx);
-
-//   // TODO: implement me!
-
-//   if (this->DH_switched) {
-//     // DHParams_Message DH = crypto_driver->DH_generate_params();
-//     auto [DH_obj, DH_private_value, DH_public_value] = crypto_driver->DH_initialize(this->DH_params);
-    
-//     Client::prepare_keys(DH_obj, DH_private_value, this->DH_last_other_public_value);
-
-//     this->DH_current_private_value = DH_private_value;
-//     this->DH_current_public_value = DH_public_value;
-//     this->DH_switched = false; 
-//   }
-
-//   auto [ciphertext, iv] = crypto_driver->AES_encrypt(this->AES_key, plaintext);
-//   std::string hmac = crypto_driver->HMAC_generate(this->HMAC_key, concat_msg_fields(iv,ciphertext));
-//   Message_Message msg;
-
-//   msg.iv = iv;
-//   msg.mac = hmac;
-//   msg.ciphertext = ciphertext;
-//   msg.public_value = this->DH_current_public_value;
-
-//   this->DH_switched = true;
-
-
-//   return msg;
-
-// }
-
 //Rewritten for project
-
 Message_Message Client::send(std::string plaintext) {
   if(this->DH_switched) {
     this->DH_switched = false;
@@ -107,14 +64,10 @@ Message_Message Client::send(std::string plaintext) {
     
   }
 
-  // SecByteBlock MK = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
-  // this->CKs = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
-
   SecByteBlock MK_enc = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x01);
   SecByteBlock CK_next = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x02);
   SecByteBlock MK_mac = crypto_driver->HMAC_generate_key_with_byte(this->CKs, 0x03);
   this->CKs = CK_next;
-
 
   // Encrypt and tag
   auto [ciphertext, iv] = crypto_driver->AES_encrypt(MK_enc, plaintext);
@@ -130,7 +83,6 @@ Message_Message Client::send(std::string plaintext) {
   msg.n = this->Ns;
 
   this->Ns += 1;
-  // this->DH_switched = true;
 
   return msg;
 }
@@ -171,9 +123,6 @@ Message_Message Client::send(std::string plaintext) {
 //Function rewritten for project
 std::pair<std::string, bool> Client::receive(Message_Message msg) {
   std::unique_lock<std::mutex> lck(this->mtx);
-  
-      this->DH_switched = true;
-
 
   //DH Ratchet if new public key
   if (msg.public_value != this->DH_last_other_public_value) {
@@ -183,6 +132,8 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
     this->prepare_keys(DH_obj, this->DH_current_private_value, this->DH_last_other_public_value);
 
     this->Nr = 0; // reset message number
+
+    this->DH_switched = true;
   }
 
   // Handle skipped messages
@@ -222,6 +173,10 @@ std::pair<std::string, bool> Client::receive(Message_Message msg) {
   std::string concat = concat_msg_fields(msg.iv, msg.ciphertext);
   bool valid = crypto_driver->HMAC_verify(MK, concat, msg.mac);
   if (!valid){
+      // std::cerr << "FAILED HMAC: expected=" << crypto_driver->HMAC_generate(MK, concat)
+      //       << " vs received=" << msg.mac << std::endl;
+      // std::cout << "made it here!!!" << std::endl;
+
     throw std::runtime_error("invalid message detected!!!");
     // return {"", false};
   } 
@@ -299,12 +254,14 @@ void Client::HandleKeyExchange(std::string command) {
     this->DH_last_other_public_value = other_pub.public_value;
     this->prepare_keys(DH_obj, DH_private_value, other_pub.public_value);
 
-
     this->DH_current_private_value = DH_private_value;
     this->DH_current_public_value = DH_public_value;
     
     this->DH_switched = false; 
 
+    // After prepare_keys, initialize symmetric ratchets
+    this->CKs = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x10);  // for sending
+    this->CKr = crypto_driver->HMAC_generate_key_with_byte(DH_shared_key, 0x11);  // for receiving
 
 }
 /**

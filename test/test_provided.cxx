@@ -1,4 +1,4 @@
-#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+// #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest/doctest.h"
 
 #include <crypto++/nbtheory.h>
@@ -32,7 +32,7 @@ TEST_CASE("ratchet: CKs advances with each message sent") {
   client.DH_params = params;
   client.prepare_keys(dh_obj, priv1, pub2);
 
-  // ✅ Manually initialize CKs to a non-null value
+  // Manually initialize CKs to a non-null value
   client.CKs = SecByteBlock(32);
   memset(client.CKs.BytePtr(), 0x01, client.CKs.size());
 

@@ -182,32 +182,32 @@ unit_tests/fast:
 	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/build
 .PHONY : unit_tests/fast
 
-test_provided.o: test_provided.cxx.o
+test_ratchet.o: test_ratchet.cxx.o
 
-.PHONY : test_provided.o
+.PHONY : test_ratchet.o
 
 # target to build an object file
-test_provided.cxx.o:
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_provided.cxx.o
-.PHONY : test_provided.cxx.o
+test_ratchet.cxx.o:
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.o
+.PHONY : test_ratchet.cxx.o
 
-test_provided.i: test_provided.cxx.i
+test_ratchet.i: test_ratchet.cxx.i
 
-.PHONY : test_provided.i
+.PHONY : test_ratchet.i
 
 # target to preprocess a source file
-test_provided.cxx.i:
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_provided.cxx.i
-.PHONY : test_provided.cxx.i
+test_ratchet.cxx.i:
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.i
+.PHONY : test_ratchet.cxx.i
 
-test_provided.s: test_provided.cxx.s
+test_ratchet.s: test_ratchet.cxx.s
 
-.PHONY : test_provided.s
+.PHONY : test_ratchet.s
 
 # target to generate assembly for a file
-test_provided.cxx.s:
-	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_provided.cxx.s
-.PHONY : test_provided.cxx.s
+test_ratchet.cxx.s:
+	cd /home/cs1515-user/SignalExtension-rselemon-knewm7/build && $(MAKE) -f test/CMakeFiles/unit_tests.dir/build.make test/CMakeFiles/unit_tests.dir/test_ratchet.cxx.s
+.PHONY : test_ratchet.cxx.s
 
 # Help Target
 help:
@@ -223,9 +223,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... test"
 	@echo "... unit_tests"
-	@echo "... test_provided.o"
-	@echo "... test_provided.i"
-	@echo "... test_provided.s"
+	@echo "... test_ratchet.o"
+	@echo "... test_ratchet.i"
+	@echo "... test_ratchet.s"
 .PHONY : help
 
 

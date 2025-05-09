@@ -5,7 +5,8 @@ if ( "$ENV{CS1515_TA_MODE}" STREQUAL "on" )
     message(STATUS "CS1515_TA_MODE is: $ENV{CS1515_TA_MODE}")
     set(TESTFILES network_driver.cxx test_provided.cxx test.cxx)
 else()
-    set(TESTFILES test_provided.cxx)
+    # set(TESTFILES test_provided.cxx)
+    set(TESTFILES test_ratchet.cxx)
 endif()
 
 set(TEST_MAIN unit_tests)   # Default name for test executable (change if you wish).
